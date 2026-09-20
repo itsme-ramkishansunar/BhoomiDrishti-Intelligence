@@ -71,7 +71,7 @@ export default function RiskMap({ scored=[], openProject, onRefresh, onArchivePr
       if(tileFallbackRef.current || !mapRef.current) return;
       tileFallbackRef.current=true;
       try { primaryTiles.remove(); } catch {}
-      const fallback=L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{maxZoom:20,attribution:'&copy; OpenStreetMap contributors &copy; CARTO',subdomains:'abcd',updateWhenIdle:true,keepBuffer:2});
+      const fallback=L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',{maxZoom:20,attribution:'&copy; OpenStreetMap contributors &copy; OSM France',subdomains:'abc',updateWhenIdle:true,keepBuffer:2});
       fallback.on('tileload',()=>setTileStatus('online')); fallback.on('tileerror',()=>setTileStatus('degraded')); fallback.addTo(map);
     };
     primaryTiles.on('tileload',()=>setTileStatus('online'));
