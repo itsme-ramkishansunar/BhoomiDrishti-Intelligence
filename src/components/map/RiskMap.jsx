@@ -65,7 +65,7 @@ export default function RiskMap({ scored=[], openProject, onRefresh, onArchivePr
     if(!mapNode.current||mapRef.current)return;
     const map=L.map(mapNode.current,{center:INDIA_CENTER,zoom:5,minZoom:4,maxZoom:18,zoomControl:false,preferCanvas:true,worldCopyJump:false,maxBounds:INDIA_BOUNDS,maxBoundsViscosity:.85});
     L.control.zoom({position:'topright'}).addTo(map);
-    const primaryTiles=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors',crossOrigin:true,updateWhenIdle:true,keepBuffer:2});
+    const primaryTiles=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors',updateWhenIdle:true,keepBuffer:2});
     let tileErrors=0;
     const fallbackTiles=()=>{
       if(tileFallbackRef.current || !mapRef.current) return;
