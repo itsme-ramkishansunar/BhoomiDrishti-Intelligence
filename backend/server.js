@@ -99,7 +99,7 @@ if (TRUST_PROXY && TRUST_PROXY !== '0' && TRUST_PROXY.toLowerCase() !== 'false')
   const numericProxy = Number(TRUST_PROXY);
   app.set('trust proxy', Number.isFinite(numericProxy) ? numericProxy : TRUST_PROXY);
 }
-app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
+app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' }, contentSecurityPolicy: { directives: { imgSrc: ["'self'", 'data:', 'https://tile.openstreetmap.org', 'https://*.tile.openstreetmap.fr'] } } }));
 app.use(cors({ origin: ALLOWED_ORIGIN, credentials: true }));
 app.use(express.json({ limit: '25mb' }));
 app.use(rateLimit({ windowMs: 60_000, max: 180, standardHeaders: true, legacyHeaders: false }));
