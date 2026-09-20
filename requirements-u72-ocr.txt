@@ -1,0 +1,5 @@
+# Optional U72 document-intelligence environment.
+# Digital PDFs can use the existing pypdf path. These packages add scanned-PDF/image OCR.
+pypdf>=5.0
+PyMuPDF>=1.24
+pytesseract>=0.3.13

@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+const fs=require('node:fs');
+const path=require('node:path');
+const assert=require('node:assert/strict');
+const root=path.resolve(__dirname,'..');
+const read=p=>fs.readFileSync(path.join(root,p),'utf8');
+const login=read('src/components/auth/LoginPage.jsx');
+const server=read('backend/server.js');
+const db=read('backend/db.js');
+const pkg=JSON.parse(read('package.json'));
+const expected='1.0.32-u75.10-final-deployment';
+assert.equal(pkg.version,expected);
+const stateMatches=login.match(/const \[publicDemoEnabled,\s*setPublicDemoEnabled\]/g)||[];
+const loadingMatches=login.match(/const \[demoLoading,\s*setDemoLoading\]/g)||[];
+assert.equal(stateMatches.length,1,'public demo enabled state must be declared once');
+assert.equal(loadingMatches.length,1,'public demo loading state must be declared once');
+assert.equal((login.match(/\/api\/public\/demo\/config/g)||[]).length,1,'login must check public demo config once');
+assert.ok(server.includes("PUBLIC_DEMO_DATA_MODE!=='synthetic_only'"));
+assert.ok(server.includes("source === 'synthetic_demo'"));
+assert.ok(server.includes('requirePublicDemoSession'));
+assert.ok(server.includes("app.set('trust proxy'"));
+assert.ok(server.includes('authLoginLimiter'));
+assert.ok(server.includes("req.user.publicDemo"));
+assert.ok(db.includes('sourceLabel: row.source_label || null'));
+console.log('PUBLIC UI/DEPLOYMENT INTEGRITY PASS');

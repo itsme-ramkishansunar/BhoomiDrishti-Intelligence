@@ -1,0 +1,32 @@
+#!/usr/bin/env node
+'use strict';
+const fs=require('node:fs');
+const path=require('node:path');
+const root=path.resolve(__dirname,'..');
+const read=f=>fs.readFileSync(path.join(root,f),'utf8');
+const pkg=JSON.parse(read('package.json'));
+const risk=read('src/components/map/RiskMap.jsx');
+const repair=read('scripts/repair-local-access.cjs');
+const local=read('scripts/smoke-local-access.cjs');
+const http=read('scripts/smoke-local-auth-http.cjs');
+const mapping=read('scripts/smoke-mapping.cjs');
+const server=read('backend/server.js');
+const db=read('backend/db.js');
+const validate=read('scripts/validate-all.cjs');
+function pass(label,ok){if(!ok)throw new Error(`FAIL U71: ${label}`);console.log(`PASS U71: ${label}`);}
+pass('release version',/u71/i.test(pkg.version));
+pass('U71 version marker',fs.existsSync(path.join(root,'U71_VERSION.txt')));
+pass('single Leaflet preferCanvas',!risk.includes('preferCanvas:true,preferCanvas:true')&&risk.includes('preferCanvas:true'));
+pass('India-bounded map',risk.includes('maxBounds:INDIA_BOUNDS')&&risk.includes('maxBoundsViscosity'));
+pass('map resize lifecycle',risk.includes('invalidateSize')&&risk.includes('addEventListener(\'resize\''));
+pass('canonical location provenance',risk.includes('locationMeta(p)')&&risk.includes('PROJECT_POINT')&&risk.includes('DISTRICT_CENTROID')&&risk.includes('GEOCODED_PLACE'));
+pass('exact/approximate/unresolved separation',risk.includes('locationMeta(p).exact')&&risk.includes('locationMeta(p).approx')&&risk.includes("kind==='unresolved'"));
+pass('interactive project focus',risk.includes('flyTo')&&risk.includes('openPopup'));
+pass('safe India geocoding',risk.includes('/api/geocode/search')&&risk.includes("country"));
+pass('map controls and filters',risk.includes('fitIndia')&&risk.includes('fitData')&&risk.includes('showRiskZones')&&risk.includes('showApproximate')&&risk.includes('showOpenOnly')&&risk.includes('setQuery'));
+pass('location persistence path',server.includes('/api/projects/:id/location')&&db.includes('updateProjectLocation'));
+pass('deterministic credential source',repair.includes('const accounts=')&&repair.includes('BHOOMI_GOV_PASSWORD')&&local.includes('ensureDemoRoleAccounts(true)')&&fs.existsSync(path.join(root,'.env')));
+pass('HTTP authentication coverage',http.includes('/api/auth/login')&&http.includes('/api/auth/me'));
+pass('mapping smoke aligned to U70 architecture',mapping.includes('map UI / Leaflet')&&mapping.includes('demo location honesty'));
+pass('validation includes mapping and U71',validate.includes("'smoke:mapping'")&&validate.includes("'smoke:u71-functional-hardening'"));
+console.log('U71 FULL FUNCTIONAL HARDENING SMOKE PASSED');

@@ -1,0 +1,4 @@
+projectId,projectName,code,type,state,district,totalParcels,parcelsAcquired,familiesAffected,familiesPending,avgDelayDays,disputes,courtCases,approvalPct,docsMissing,resettlementPct,rehabPct,depts,prevDelays,stageIndex,status,latitude,longitude
+P-001,NH-44 Expansion – Salem Section,NH44-SLM,Highway,Tamil Nadu,Salem,250,183,142,37,68,4,1,62,23,71,64,6,2,4,ongoing,,
+P-002,Chennai Peripheral Ring Road,CPRR-01,Highway,Tamil Nadu,Chennai,410,401,88,3,9,0,0,97,2,95,92,4,0,6,ongoing,,
+P-003,Coimbatore Metro Rail Ph-2,CMB-MTR2,Railway,Tamil Nadu,Coimbatore,190,96,210,88,74,6,3,48,31,40,35,7,2,3,ongoing,,

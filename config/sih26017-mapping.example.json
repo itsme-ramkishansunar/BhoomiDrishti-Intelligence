@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "sih26017-mapping-v1",
+  "sourceDatasetName": "REPLACE_WITH_AUTHORIZED_SOURCE_NAME",
+  "fields": {
+    "project_id": {"sourceField": "REPLACE_PROJECT_ID_COLUMN"},
+    "project_name": {"sourceField": "REPLACE_PROJECT_NAME_COLUMN"},
+    "state": {"sourceField": "REPLACE_STATE_COLUMN"},
+    "district": {"sourceField": "REPLACE_DISTRICT_COLUMN"},
+    "status": {"sourceField": "REPLACE_STATUS_COLUMN"},
+    "start_date": {"sourceField": "REPLACE_START_DATE_COLUMN"}
+  },
+  "target": {
+    "definition": "REVIEW_REQUIRED: choose only after source documentation confirms the operational meaning of delay",
+    "sourceFields": ["REPLACE_TARGET_OR_STAGE_DATE_COLUMNS"],
+    "predictionHorizonDays": [30, 60, 90]
+  },
+  "review": {
+    "sourceDocumentationVerified": false,
+    "labelDefinitionApproved": false,
+    "temporalCutoffApproved": false,
+    "provenanceVerified": false
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "sih26017-ml-training-v1",
+  "purpose": "Reviewed tabular contract for temporal SIH26017-compatible model training. This schema does not assert that any source dataset already conforms to it.",
+  "requiredFields": [
+    "project_id",
+    "prediction_time",
+    "label"
+  ],
+  "fieldDefinitions": {
+    "project_id": {"type":"string", "role":"identifier"},
+    "prediction_time": {"type":"datetime", "role":"prediction_cutoff"},
+    "label": {"type":"binary", "role":"outcome", "allowed":[0,1]},
+    "state": {"type":"categorical", "role":"context"},
+    "district": {"type":"categorical", "role":"context"},
+    "stage_index": {"type":"numeric", "role":"process"},
+    "days_in_stage": {"type":"numeric", "role":"temporal_feature"},
+    "families_pending_ratio": {"type":"numeric", "role":"compensation"},
+    "legal_exposure": {"type":"numeric", "role":"legal"},
+    "approval_gap": {"type":"numeric", "role":"approval"},
+    "documentation_gap": {"type":"numeric", "role":"documentation"},
+    "rr_gap": {"type":"numeric", "role":"rr"},
+    "administrative_friction": {"type":"numeric", "role":"administrative"}
+  },
+  "governance": {
+    "projectLevelSplit": true,
+    "randomSplit": false,
+    "pointInTimeAvailabilityRequired": true,
+    "rightCensoringRequiredWhenFutureUnknown": true,
+    "realAuthorizedDataRequiredForPromotion": true,
+    "calibrationRequiredForProbabilityClaims": true,
+    "oodAndApplicabilityRequiredForProduction": true,
+    "humanLabelReviewRequired": true
+  }
+}

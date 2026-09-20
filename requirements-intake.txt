@@ -1,0 +1,2 @@
+# Optional local PDF extraction dependency for BHOOMIDHRISHTI project intake.
+pypdf>=5,<7

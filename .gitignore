@@ -1,0 +1,33 @@
+node_modules
+dist
+.env
+.env.local
+node_modules/
+.env
+*.local
+backend/data/
+
+# Local persistent database
+backend/data/*.sqlite
+backend/data/*.sqlite-*
+.env
+# Secrets, credentials and local tooling
+*.pem
+*.key
+*.crt
+*.pfx
+*.p12
+.npmrc
+*.log
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+.tmp-/
+.tmp-*/
+backups/
+*.sqlite
+*.sqlite-*
+*.db
+*.db-*
+*.zip

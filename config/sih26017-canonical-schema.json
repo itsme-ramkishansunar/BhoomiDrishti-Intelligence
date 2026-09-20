@@ -1,0 +1,316 @@
+{
+  "schemaVersion": "sih26017-canonical-v1",
+  "purpose": "Canonical contract for authorized SIH26017-compatible historical acquisition data. This file does not assert that any source dataset contains every field.",
+  "requiredBeforeTraining": [
+    "project_id"
+  ],
+  "fields": {
+    "project_id": {
+      "type": "string",
+      "aliases": [
+        "project_id",
+        "projectid",
+        "project_code",
+        "projectcode",
+        "project_number",
+        "project_no",
+        "project_identifier",
+        "id",
+        "code"
+      ],
+      "role": "identifier"
+    },
+    "project_name": {
+      "type": "string",
+      "aliases": [
+        "project_name",
+        "projectname",
+        "project_title",
+        "projecttitle",
+        "project",
+        "name"
+      ],
+      "role": "identity"
+    },
+    "state": {
+      "type": "string",
+      "aliases": [
+        "state",
+        "state_name",
+        "statecode"
+      ],
+      "role": "context"
+    },
+    "district": {
+      "type": "string",
+      "aliases": [
+        "district",
+        "district_name",
+        "districtcode"
+      ],
+      "role": "context"
+    },
+    "project_type": {
+      "type": "string",
+      "aliases": [
+        "project_type",
+        "projecttype",
+        "acquisition_type",
+        "type"
+      ],
+      "role": "context"
+    },
+    "land_area": {
+      "type": "number",
+      "aliases": [
+        "land_area",
+        "landarea",
+        "area",
+        "area_ha",
+        "hectares",
+        "land_required",
+        "land_required_ha"
+      ],
+      "role": "scale"
+    },
+    "affected_families": {
+      "type": "number",
+      "aliases": [
+        "affected_families",
+        "families_affected",
+        "affectedfamilies",
+        "paf",
+        "number_of_affected_families"
+      ],
+      "role": "scale"
+    },
+    "families_pending": {
+      "type": "number",
+      "aliases": [
+        "families_pending",
+        "pending_families",
+        "compensation_pending_families",
+        "pending_compensation_families"
+      ],
+      "role": "compensation"
+    },
+    "compensation_paid": {
+      "type": "number",
+      "aliases": [
+        "compensation_paid",
+        "paid_compensation",
+        "compensation_disbursed",
+        "amount_paid"
+      ],
+      "role": "compensation"
+    },
+    "compensation_assessed": {
+      "type": "number",
+      "aliases": [
+        "compensation_assessed",
+        "assessed_compensation",
+        "amount_assessed"
+      ],
+      "role": "compensation"
+    },
+    "approval_pct": {
+      "type": "number",
+      "aliases": [
+        "approval_pct",
+        "approval_percentage",
+        "approval_completion",
+        "approval_completion_pct"
+      ],
+      "role": "approval"
+    },
+    "documents_missing": {
+      "type": "number",
+      "aliases": [
+        "documents_missing",
+        "missing_documents",
+        "incomplete_documents",
+        "doc_gaps"
+      ],
+      "role": "documentation"
+    },
+    "legal_disputes": {
+      "type": "number",
+      "aliases": [
+        "legal_disputes",
+        "disputes",
+        "objections",
+        "legal_objections"
+      ],
+      "role": "legal"
+    },
+    "court_cases": {
+      "type": "number",
+      "aliases": [
+        "court_cases",
+        "cases",
+        "litigation_cases",
+        "court_case_count"
+      ],
+      "role": "legal"
+    },
+    "rr_pct": {
+      "type": "number",
+      "aliases": [
+        "rr_pct",
+        "r_and_r_pct",
+        "rehabilitation_resettlement_pct",
+        "resettlement_pct"
+      ],
+      "role": "rr"
+    },
+    "possession_pct": {
+      "type": "number",
+      "aliases": [
+        "possession_pct",
+        "possession_completion_pct",
+        "possession_progress"
+      ],
+      "role": "possession"
+    },
+    "stage": {
+      "type": "string",
+      "aliases": [
+        "stage",
+        "stage_name",
+        "current_stage",
+        "acquisition_stage",
+        "lifecycle_stage"
+      ],
+      "role": "process"
+    },
+    "stage_index": {
+      "type": "number",
+      "aliases": [
+        "stage_index",
+        "stage_no",
+        "stage_number",
+        "stage_id"
+      ],
+      "role": "process"
+    },
+    "status": {
+      "type": "string",
+      "aliases": [
+        "status",
+        "project_status",
+        "current_status",
+        "state_status"
+      ],
+      "role": "process"
+    },
+    "start_date": {
+      "type": "date",
+      "aliases": [
+        "start_date",
+        "project_start",
+        "acquisition_start",
+        "started_at",
+        "commencement_date"
+      ],
+      "role": "temporal"
+    },
+    "notification_date": {
+      "type": "date",
+      "aliases": [
+        "notification_date",
+        "notification_at",
+        "3a_date",
+        "3a_notification",
+        "gazette_date"
+      ],
+      "role": "temporal"
+    },
+    "award_date": {
+      "type": "date",
+      "aliases": [
+        "award_date",
+        "award_at",
+        "award_approved_at"
+      ],
+      "role": "temporal"
+    },
+    "possession_date": {
+      "type": "date",
+      "aliases": [
+        "possession_date",
+        "possession_at",
+        "date_of_possession"
+      ],
+      "role": "temporal"
+    },
+    "completion_date": {
+      "type": "date",
+      "aliases": [
+        "completion_date",
+        "completed_at",
+        "actual_completion_date",
+        "project_completion"
+      ],
+      "role": "outcome_temporal"
+    },
+    "planned_days": {
+      "type": "number",
+      "aliases": [
+        "planned_days",
+        "target_days",
+        "planned_duration",
+        "target_duration_days"
+      ],
+      "role": "label_support"
+    },
+    "actual_days": {
+      "type": "number",
+      "aliases": [
+        "actual_days",
+        "actual_duration",
+        "elapsed_days",
+        "duration_days"
+      ],
+      "role": "outcome_temporal"
+    },
+    "additional_days": {
+      "type": "number",
+      "aliases": [
+        "additional_days",
+        "delay_days",
+        "overrun_days",
+        "additional_delay_days"
+      ],
+      "role": "outcome_candidate"
+    },
+    "delay_flag": {
+      "type": "boolean_or_numeric",
+      "aliases": [
+        "delay_flag",
+        "delayed",
+        "is_delayed",
+        "delay_indicator",
+        "delay_status"
+      ],
+      "role": "outcome_candidate"
+    },
+    "last_updated": {
+      "type": "date",
+      "aliases": [
+        "last_updated",
+        "updated_at",
+        "updated_on",
+        "last_modified"
+      ],
+      "role": "availability_context"
+    }
+  },
+  "trainingGates": {
+    "noSyntheticGroundTruth": true,
+    "predictionTimeAvailabilityRequired": true,
+    "temporalEvaluationRequired": true,
+    "rightCensoringRequiredWhenFutureUnknown": true,
+    "humanValidationOfLabelRequired": true,
+    "provenanceRequiredForPromotion": true
+  }
+}

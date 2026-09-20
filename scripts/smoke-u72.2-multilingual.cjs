@@ -1,0 +1,16 @@
+const fs=require('node:fs');
+const path=require('node:path');
+const root=process.cwd();
+const required=['backend/domain/multilingual-intelligence.js','backend/domain/entity-resolution.js','backend/domain/intake-analyzer.js','scripts/extract-document.py','src/components/intake/ProjectIntakePage.jsx','docs_UPGRADE_72.2_MULTILINGUAL_INTELLIGENCE.md'];
+const missing=required.filter(x=>!fs.existsSync(path.join(root,x))); if(missing.length) throw new Error(`Missing: ${missing.join(', ')}`);
+const pkg=JSON.parse(fs.readFileSync(path.join(root,'package.json'),'utf8'));
+if(!/u72\.(?:2|3|4)/.test(pkg.version)) throw new Error(`Unexpected package version: ${pkg.version}`);
+const py=fs.readFileSync(path.join(root,'scripts/extract-document.py'),'utf8');
+for(const n of ['BHOOMI_OCR_LANGS','OCR_LANGUAGE_PRIORITY','--list-langs','choose_ocr_language']) if(!py.includes(n)) throw new Error(`OCR contract missing: ${n}`);
+const analyzer=fs.readFileSync(path.join(root,'backend/domain/intake-analyzer.js'),'utf8');
+for(const n of ['intake-rules-v2-multilingual','languageProfile','legalCases','parcelEvidence']) if(!analyzer.includes(n)) throw new Error(`Analyzer contract missing: ${n}`);
+const multi=fs.readFileSync(path.join(root,'backend/domain/multilingual-intelligence.js'),'utf8');
+for(const n of ['Assamese','Bengali','Marathi','Nepali','Tamil','Telugu','Urdu','LAND_ACQUISITION_AWARD','SECTION_11_NOTIFICATION']) if(!multi.includes(n)) throw new Error(`Language/intelligence contract missing: ${n}`);
+const entity=fs.readFileSync(path.join(root,'backend/domain/entity-resolution.js'),'utf8');
+if(!entity.includes('HAS_PARCEL')||!entity.includes('HAS_LEGAL_REFERENCE')) throw new Error('Evidence graph contract missing');
+console.log(JSON.stringify({ok:true,version:'U72.2',checks:required.length,databaseMigration:false,modelReplacement:false,multilingualLanguagePacks:22,ocrFallback:true,canonicalOverwrite:false},null,2));

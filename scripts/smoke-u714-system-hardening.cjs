@@ -1,0 +1,27 @@
+'use strict';
+const fs=require('node:fs');
+const path=require('node:path');
+const root=path.resolve(__dirname,'..');
+const read=f=>fs.readFileSync(path.join(root,f),'utf8');
+const pkg=JSON.parse(read('package.json'));
+function pass(label,ok){if(!ok)throw new Error(`FAIL U71.4: ${label}`);console.log(`PASS U71.4: ${label}`);}
+const server=read('backend/server.js');
+const di=read('src/components/ops/DataIntegrationPage.jsx');
+const ic=read('src/components/ops/IntegrationControlPage.jsx');
+const dh=read('src/components/ops/DataHealthPage.jsx');
+const connectors=read('backend/domain/source-connectors.js');
+pass('data ingestion endpoint',server.includes("/api/data-ingestion/upload"));
+pass('multipart upload parser',server.includes('readMultipartFile(req,100*1024*1024)'));
+pass('connector catalog endpoint',server.includes("/api/source-connectors/catalog"));
+pass('connector live check endpoint',server.includes("/api/source-connectors/:id/check"));
+pass('connector snapshot endpoint',server.includes("/api/source-connectors/:id/sync"));
+pass('connector snapshot history endpoint',server.includes("/api/source-connectors/:id/snapshots"));
+pass('connector fetch bounded response',connectors.includes('MAX_BODY_BYTES'));
+pass('connector timeout',connectors.includes('timeoutMs = 25000'));
+pass('integration upload uses FormData',di.includes('form.append(\'file\''));
+pass('integration upload parses non-json errors',di.includes('r.text()') && di.includes('HTTP ${r.status}'));
+pass('integration control history action',ic.includes("/api/source-connectors/${encodeURIComponent(id)}/snapshots"));
+pass('data health sync action',dh.includes("/api/source-connectors/${encodeURIComponent(id)}/sync"));
+pass('build script exists',Boolean(pkg.scripts?.build));
+pass('start script exists',Boolean(pkg.scripts?.['start:all']));
+console.log('U71.4 system hardening smoke PASSED');

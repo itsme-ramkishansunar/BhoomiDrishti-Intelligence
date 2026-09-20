@@ -1,0 +1,7 @@
+const fs=require('node:fs'); const path=require('node:path'); const root=path.resolve(__dirname,'..');
+const resolver=fs.readFileSync(path.join(root,'backend/domain/canonical-project.js'),'utf8'); const server=fs.readFileSync(path.join(root,'backend/server.js'),'utf8'); const db=fs.readFileSync(path.join(root,'backend/db.js'),'utf8'); const migration=fs.readFileSync(path.join(root,'database/migrations/007_canonical_project.sql'),'utf8');
+for(const t of ['buildCanonicalProject','canonical-project-v1','REVIEW_REQUIRED','READY_FOR_REVIEW','humanReviewRequired','readinessPct']){if(!resolver.includes(t))throw new Error(`Missing canonical contract: ${t}`);console.log(`PASS canonical contract: ${t}`)}
+for(const t of ['/api/project-intake/:id/reconcile','/api/project-intake/:id/canonical','buildCanonicalProject','createCanonicalProject']){if(!server.includes(t))throw new Error(`Missing canonical server contract: ${t}`);console.log(`PASS server contract: ${t}`)}
+for(const t of ['canonical_project_records','canonical_project_entities','createCanonicalProject','getCanonicalProjectForIntake','attachCanonicalProjectToProject']){if(!db.includes(t))throw new Error(`Missing canonical DB contract: ${t}`);console.log(`PASS DB contract: ${t}`)}
+for(const t of ['canonical_project_records','canonical_project_entities','readiness_pct','conflict_count']){if(!migration.includes(t))throw new Error(`Missing migration contract: ${t}`);console.log(`PASS migration contract: ${t}`)}
+console.log('Canonical project smoke source check passed.');

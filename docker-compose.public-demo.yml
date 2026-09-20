@@ -1,0 +1,31 @@
+services:
+  bhoomidrishti-demo:
+    build: .
+    ports:
+      - "8787:8787"
+    environment:
+      NODE_ENV: production
+      SERVE_FRONTEND: "true"
+      BACKEND_PORT: 8787
+      FRONTEND_ORIGIN: http://localhost:8787
+      BHOOMI_PERSISTENT_ROOT: /var/lib/bhoomidrishti/data
+      BHOOMI_ADMIN_EMAIL: ${BHOOMI_ADMIN_EMAIL:?Set BHOOMI_ADMIN_EMAIL}
+      BHOOMI_ADMIN_PASSWORD: ${BHOOMI_ADMIN_PASSWORD:?Set BHOOMI_ADMIN_PASSWORD}
+      BHOOMI_DEMO_ACCESS_ENABLED: "false"
+      BHOOMI_PUBLIC_DEMO_ENABLED: "true"
+      BHOOMI_PUBLIC_DEMO_DATA_MODE: synthetic_only
+      AI_PROVIDER: local
+      AI_DATA_MODE: local_only
+      AI_LOCAL_FIRST: "true"
+      VITE_GOVERNMENT_EMBLEM_AUTHORIZED: "false"
+      BHOOMI_TRUST_PROXY: ${BHOOMI_TRUST_PROXY:-0}
+    volumes:
+      - bhoomidrishti-demo-data:/var/lib/bhoomidrishti/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8787/api/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+volumes:
+  bhoomidrishti-demo-data:

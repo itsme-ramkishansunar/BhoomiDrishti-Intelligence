@@ -1,0 +1,5 @@
+BHOOMIDHRISHTI U56.1 — BULK FEATURE REGISTRY & OPERATIONAL READINESS
+Baseline: U55 BULK INITIALIZED OPERATIONAL
+Feature registry: bulk-feature-registry-v1
+Schema migration: 017_bulk_feature_registry.sql
+Stable baseline U55 is not modified by this release.

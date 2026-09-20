@@ -1,0 +1,32 @@
+BHOOMIDHRISHTI U72.4.2 — FINAL VERIFIED WINDOWS PACKAGE
+
+IMPORTANT
+- This package is a source upgrade. It intentionally excludes .env, node_modules, dist, and local database files.
+- Preserve your existing .env and persistent SQLite database.
+- Do NOT delete/reset the shared database.
+
+INSTALL
+1. Stop the running app with Ctrl+C.
+2. Back up:
+   $DB="$env:LOCALAPPDATA\BhoomiDrishti\data\bhoomidrishti.sqlite"
+   $BACKUP="$env:LOCALAPPDATA\BhoomiDrishti\data\backups\bhoomidrishti_before_u72_4_2.sqlite"
+   Copy-Item $DB $BACKUP -Force
+3. Extract this ZIP.
+4. Merge extracted files over the existing U72.4 project while preserving .env and excluding node_modules/dist/.git.
+   robocopy <EXTRACTED_FOLDER> <EXISTING_PROJECT> /E /R:2 /W:1 /XD node_modules dist .git /XF .env
+5. In the existing project:
+   npm.cmd install --no-audit --no-fund
+   npm.cmd run smoke:u72.4.2-functional
+   npm.cmd run smoke:portfolio-hygiene
+   npm.cmd run check:js
+   npm.cmd run build
+   npm.cmd run start:all
+
+EXPECTED
+- U72.4.2 functional smoke: ok=true, failed=[]
+- bulk project initialization: failed=0
+- no 'no such column: portfolio_status'
+- Government Officer does not see/call admin-only actions
+- Project Intake persists candidate field-verification records
+
+Do not run: npm audit fix --force

@@ -1,0 +1,10 @@
+U57 - bulk operational integration
+
+Additive release on the validated U56.3 baseline.
+
+Primary additions:
+- National Intelligence Center consolidating the existing persistent project/risk/alert/action/governance state.
+- Portfolio CSV export for authorised project scope.
+- Expanded public-source catalog for LACRRIS and PAIMANA discovery/snapshot monitoring.
+- No replacement database and no change to the shared-store contract.
+- No production ML promotion; existing governance gates remain authoritative.
