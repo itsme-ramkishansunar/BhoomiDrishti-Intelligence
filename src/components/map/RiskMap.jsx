@@ -65,7 +65,7 @@ export default function RiskMap({ scored=[], openProject, onRefresh, onArchivePr
     if(!mapNode.current||mapRef.current)return;
     const map=L.map(mapNode.current,{center:INDIA_CENTER,zoom:5,minZoom:4,maxZoom:18,zoomControl:false,preferCanvas:true,worldCopyJump:false,maxBounds:INDIA_BOUNDS,maxBoundsViscosity:.85});
     L.control.zoom({position:'topright'}).addTo(map);
-    const primaryTiles=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors',crossOrigin:true,updateWhenIdle:true,keepBuffer:2});
+    const primaryTiles=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors',crossOrigin:true,updateWhenIdle:true,keepBuffer:2});
     let tileErrors=0;
     const fallbackTiles=()=>{
       if(tileFallbackRef.current || !mapRef.current) return;
@@ -80,7 +80,7 @@ export default function RiskMap({ scored=[], openProject, onRefresh, onArchivePr
     map.on('click',()=>setSelectedId(null));
     mapRef.current=map;setMapReady(true);
     const resize=()=>map.invalidateSize({pan:false});
-    const timers=[80,300,800].map(ms=>setTimeout(resize,ms));window.addEventListener('resize',resize);
+    const timers=[80,300,800,1500].map(ms=>setTimeout(resize,ms));map.whenReady(resize);window.addEventListener('resize',resize);
     return()=>{timers.forEach(clearTimeout);window.removeEventListener('resize',resize);map.remove();mapRef.current=null;setMapReady(false);};
   },[]);
 
@@ -108,7 +108,7 @@ export default function RiskMap({ scored=[], openProject, onRefresh, onArchivePr
     const hadSignature=dataSignatureRef.current;
     const hadNewData=!hadSignature || (signature && signature!==hadSignature && drawable.some(p=>!hadSignature.includes(`${p.id}:`)));
     if(bounds.length && (!initialFitRef.current || hadNewData)){
-      map.fitBounds(bounds,{padding:[35,35],maxZoom:7});
+      map.fitBounds(bounds,{padding:[35,35],maxZoom:5});
       initialFitRef.current=true;
     }
     dataSignatureRef.current=signature;
@@ -118,7 +118,7 @@ export default function RiskMap({ scored=[], openProject, onRefresh, onArchivePr
   const fitData=()=>{
     const map=mapRef.current;if(!map)return;const pts=[];
     drawable.forEach(p=>{if(p.geometryGeoJSON){const g=layersRef.current.get(`${p.id}:geometry`);const b=g?.getBounds?.();if(b?.isValid())pts.push([b.getSouth(),b.getWest()],[b.getNorth(),b.getEast()]);}else if(validPoint(p))pts.push([Number(p.latitude),Number(p.longitude)]);});
-    if(pts.length)map.fitBounds(pts,{padding:[28,28],maxZoom:9});else fitIndia();
+    if(pts.length)map.fitBounds(pts,{padding:[28,28],maxZoom:7});else fitIndia();
   };
   const focus=(p)=>{
     setSelectedId(p.id);const map=mapRef.current;if(!map)return;
